@@ -8,7 +8,7 @@
 #include <valarray>
 #include <vector>
 
-//namespace machine_learning{
+namespace machine_learning{
     // 重载<< 打印二维数组
     template <typename T>
     std::ostream &operator<<(std::ostream &out, std::vector<std::valarray<T>> const &A){
@@ -57,18 +57,21 @@
     }
 
 
-//}
+    void test01(){
+
+        // 验证 重载<< 打印一维数组
+        std::vector<int> weekdays;
+        weekdays.push_back(2);
+        weekdays.push_back(3);
+        weekdays.push_back(4);
+        std::cout << "print 1D: " << weekdays;
+
+    }
+}
 
 #endif
 
-void test01(){
-    std::valarray<float> A(3.14, 10);  //长度为10，每个元素都是3.14
-
-    std::vector<int> weekdays;
-	weekdays.push_back(2);
-    std::cout << weekdays;
-}
 
 int main(){
-    test01();
+    machine_learning::test01();
 }
