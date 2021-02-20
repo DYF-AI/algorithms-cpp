@@ -22,7 +22,6 @@ namespace machine_learning{
         return out;
     }
 
-
     // 重载 << 打印pair
     template <typename T>
     std::ostream &operator <<(std::ostream &out, const std::pair<T,T> &A){
@@ -53,8 +52,6 @@ namespace machine_learning{
         return out;
     }
 
-
-
     // 将element插入1D vector
     template <typename T>
     std::valarray<T> insert_element(const std::valarray<T> &A, const T &ele){
@@ -67,10 +64,7 @@ namespace machine_learning{
         return B;
     }
 
-
     void test01(){
-
-
         // print 1D vector
         std::vector<int> weekdays;
         weekdays.push_back(2);
@@ -95,14 +89,10 @@ namespace machine_learning{
         // print pair
         std::pair<int, int> pair_A = {1, 2};
         std::cout << "print pair = "<< pair_A << std::endl;
-
-        
-
     }
 }
 
 #endif
-
 
 int main(){
     machine_learning::test01();
