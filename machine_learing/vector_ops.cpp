@@ -70,7 +70,8 @@ namespace machine_learning{
 
     void test01(){
 
-        // 验证 重载<< 打印一维数组
+
+        // print 1D vector
         std::vector<int> weekdays;
         weekdays.push_back(2);
         weekdays.push_back(3);
@@ -78,16 +79,24 @@ namespace machine_learning{
         weekdays.push_back(5);
         std::cout << "print 1D vector: " << weekdays;
 
-        //--------------------------------
+        // insert element
         // 创建一个大小为4、值全为3的valarray
         std::valarray<int> valarray_A(3, 4);
         int a = 5;
         std::valarray<int> B = insert_element(valarray_A, a);
         std::cout << "insert_element: " << B << std::endl;
 
-        // ----------------------------------
+        // print vector<std::valarray<int>>
+        std::vector<std::valarray<int>> vec_va;
+        vec_va.push_back(B);
+        vec_va.push_back(B);
+        std::cout << "print vector<std::valarray<int>>: " << vec_va << std::endl;
+
+        // print pair
         std::pair<int, int> pair_A = {1, 2};
         std::cout << "print pair = "<< pair_A << std::endl;
+
+        
 
     }
 }
