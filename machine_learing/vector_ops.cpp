@@ -167,6 +167,112 @@ namespace machine_learning{
         return cur_sum;
     }
 
+    // 返回2D Vector 的shape
+    template <typename T>
+    std::pair<size_t, size_t> get_shape(const std::vector<std::valarray<T>> &A){
+        const size_t sub_size = (*A.size()).size();
+        for(const auto &a : A){
+            // 如果不是所有row的shaoe都一样，报错
+            if(a.size() != sub_size){
+                std::cerr << "ERROR (" << __func__ << ") : ";
+                std::cerr << "Sipplied vector is not 2D Matirx" << std::endl;
+                std::exit(EXIT_FAILURE);
+            }
+        }
+        return std::make_pair(A.size, sub_size);
+    }
+
+    // 对3D vector数据进行 缩放 min-max
+    // 返回缩放后的 3D vector
+    template <typename T>
+    std::vector<std::vector<std::valarray<T>>> minmax_scaler(
+        const std::vector<std::vector<std::valarray<T>>> &A, const T &low,
+        const T &high){
+        std::vector<std::vector<std::valarray<T>>> B = A;
+        const auto shape = get_shape(B[0]); // B[0]是二维
+        // 区别3D vector的shape.first为1
+        if (shape.first != 1){
+            std::cerr << "ERROR (" << __func__ << ") : ";
+            std::cerr << "Sipplied vector is not supported for minmax scaling, shape: " << std::endl;
+            std::exit(EXIT_FAILURE);
+        }
+        for (size_t i = 0; i < shape.first; i++){
+            T min = B[0][0][i], max = B[0][0][i];
+            for (size_t j = 0; j < B.size(); j++){
+                // 找出minimun maximum
+                min = std::min(min, B[j][0][i]);
+                max = std::max(max, B[j][0][i]);
+            }
+            for (size_t j = 0; j < B.size(); j++){
+                B[j][0][i] = ((B[j][0][i] - min) / (max - min)) * (high - low) + low;
+            }
+        }
+        return B;
+    }
+
+    // 获取2D vector中最大元素的索引
+    template <typename T>
+    size_t argmax(const std::vector<std::valarray<T>> &A){
+        const auto shape = get_shape(A);
+        // 由于此函数用于预测（或目标）矢量，因此形状应为（1，X）
+        if (shape.first != 1){
+            std::cerr << "ERROR (" << __func__ << ") : ";
+            std::cerr << "Sipplied vector is not supported for minmax scaling, shape: " << std::endl;
+            std::exit(EXIT_FAILURE);
+        }
+        return std::distance(std::begin(A[0]), std::max_element(std::begin(A[0]), std::end(A[0])));
+    }
+
+    // 将2D vector的每个元素，作为func的参数
+    template <typename T>
+    std::vector<std::valarray<T>> apply_function(
+        const std::vector<std::valarray<T>> &A, T (*func)(const T &)){
+        std::vector<std::valarray<double>> B = A;
+        for (auto &b : B){
+            b = b.apply(func); // b=func(b); & 已经修改了B中的值
+        }
+        return B;
+    }
+
+    // 重载运算符* 将给定的2D向量与标量相乘
+    template <typename T>
+    std::vector<std::valarray<T>> operator*(
+        const std::vector<std::valarray<T>> &A, const T &val){
+        std::vector<std::valarray<double>> B = A; // copy 不改变原来的值
+        for(auto &b : B){
+            b = b * val;
+        }
+        return B;
+    }
+
+    // 重载运算符/ 将给定的2D向量与标量相除
+    template <typename T>
+    std::vector<std::valarray<T>> operator*(
+        const std::vector<std::valarray<T>> &A, const T &val){
+        std::vector<std::valarray<double>> B = A; // copy 不改变原来的值
+        for(auto &b : B){
+            b = b / val;
+        }
+        return B;
+    }
+
+    // 2D vector 转置
+    template <typename T>
+    std::vector<std::valarray<T>> transpose(
+        const std::vector<std::valarray<T>> &A){
+        const auto shape = get_shape(A);
+        std::vector<std::valarray<T>> B;
+        for (size_t j = 0; j < shape.second; j++){
+            std::valarray<T> row;
+            row.resize(shape.first);
+            for (size_t i = 0; i < shape.first; i++)
+                row[i] = A[i][j];
+            B.push_back(row);
+        }
+        return B;
+    }
+
+
     void test01(){
         // print 1D vector
         std::vector<int> weekdays;
