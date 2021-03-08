@@ -1,2 +1,2 @@
-# Algorithms-CPP
+# Algorithms-cpp
 Algorithms based on CPP implementation
