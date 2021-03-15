@@ -3,7 +3,6 @@
 
 #include "common.cpp"
 
-
 template <typename T>
 void selcection(std::vector<T> &arr){
     int N = arr.size();
