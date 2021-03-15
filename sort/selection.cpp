@@ -14,6 +14,7 @@ void selcection(std::vector<T> &arr){
             }
         }
         std::swap(arr[i], arr[min]);
+        print(arr);
     }
 }
 
