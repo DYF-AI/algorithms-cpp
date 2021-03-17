@@ -33,10 +33,10 @@ void merge_sort(std::vector<T> &arr, int low, int high){
 }
 
 int main(int argc, char* argv[]){
-    std::vector<int> arr;
+    std::vector<float> arr;
     std::cout << argc << std::endl;
     for (int i = 1; i < argc; i++){
-        arr.push_back(atoi(argv[i]));
+        arr.push_back(atof(argv[i]));
     }
     print(arr);
     merge_sort(arr, 0, arr.size()-1);
